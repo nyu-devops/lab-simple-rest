@@ -40,7 +40,7 @@ def read_counters(name: str):
     counter = COUNTERS.get(name)
 
     # Return an error if the counter cannot be found
-    if not counter:
+    if counter is None:
         abort(status.HTTP_404_NOT_FOUND, f"Counter {name} does not exist")
 
     app.logger.info("Returning: %s = %d...", (name, counter))
