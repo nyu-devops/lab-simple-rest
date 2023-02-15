@@ -1,102 +1,62 @@
 """
 Simple REST API using Flask
+
+You have been asked to create a web service that can keep 
+track of multiple counters. 
+
+The web service has the following requirements:
+
+- The API must be RESTful.
+- The endpoint must be called /counters.
+- When creating a counter, you must specify the name in the path.
+- Duplicate names must return a conflict error code.
+- The service must be able to update a counter by name.
+- The service must be able to get a counter's current value.
+- The service must be able to delete a counter.
+
 """
-from flask import Flask, jsonify, abort, url_for
-import status
 
-app = Flask(__name__)
 
-COUNTERS: dict = {}
 
-@app.route("/", methods=["GET"])
-def index():
-    """Root URL"""
-    return {"status": "OK"}
+############################################################
+# Base URL
+############################################################
+
+# Place code here...
+
+
 
 ############################################################
 # List counters
 ############################################################
-@app.route("/counters", methods=["GET"])
-def list_counters():
-    """List counters"""
-    app.logger.info("Request to list all counters...")
 
-    counters: list = []
-    for name in COUNTERS:  # pylint: disable=consider-using-dict-items
-        counters.append({"name" : name, "counter" : COUNTERS[name]})
-
-    return counters
+# Place code here...
 
 
 ############################################################
 # Read counters
 ############################################################
-@app.route("/counters/<name>", methods=["GET"])
-def read_counters(name: str):
-    """Read a counter"""
-    app.logger.info("Request to Read counter: %s...", name)
 
-    # Try and get the counter
-    counter = COUNTERS.get(name)
-
-    # Return an error if the counter cannot be found
-    if not counter:
-        abort(status.HTTP_404_NOT_FOUND, f"Counter {name} does not exist")
-
-    app.logger.info("Returning: %s = %d...", (name, counter))
-    return jsonify(name=name, counter=counter), status.HTTP_200_OK
+# Place code here...
 
 
 ############################################################
 # Create counter
 ############################################################
-@app.route("/counters/<name>", methods=["POST"])
-def create_counters(name):
-    """Create a counter"""
-    app.logger.info("Request to Create counter...")
-    global COUNTERS
 
-    if name in COUNTERS:
-        abort(status.HTTP_409_CONFLICT, f"Counter {name} already exists.")
-
-    counter = 0
-    COUNTERS[name] = counter
-
-    app.logger.info("Counter %s created.", name)
-    location_url = url_for("read_counters", name=name, _external=True)
-    return jsonify(name=name, counter=counter), status.HTTP_201_CREATED, {"Location": location_url}
+# Place code here...
 
 
 ############################################################
 # Update counters
 ############################################################
-@app.route("/counters/<name>", methods=["PUT"])
-def update_counters(name):
-    """Update a counter"""
-    app.logger.info("Request to Update counter %s...", name)
 
-    # Try and get the counter
-    counter = COUNTERS.get(name)
-
-    # Return an error if the counter cannot be found
-    if counter is None:
-        abort(status.HTTP_404_NOT_FOUND, f"Counter {name} does not exist")
-
-    # Increment the counter
-    COUNTERS[name]  = COUNTERS[name] + 1
-
-    return jsonify(name=name, counter=COUNTERS[name]), status.HTTP_200_OK
+# Place code here...
 
 
 ############################################################
 # Delete counters
 ############################################################
-@app.route("/counters/<name>", methods=["DELETE"])
-def delete_counters(name):
-    """Delete a counter"""
-    app.logger.info("Request to Delete counter...")
 
-    if name in COUNTERS:
-        del COUNTERS[name]
+# Place code here...
 
-    return "", status.HTTP_204_NO_CONTENT
