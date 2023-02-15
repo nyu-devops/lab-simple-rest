@@ -1,0 +1,7 @@
+# Runtime dependencies
+Flask==2.2.2
+python-dotenv==0.20.0
+
+# Utilities
+pylint==2.13.9
+httpie==3.2.1

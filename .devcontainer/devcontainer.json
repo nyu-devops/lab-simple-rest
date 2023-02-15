@@ -1,0 +1,31 @@
+{
+	"name": "Simple REST",
+	"image": "rofrano/nyu-devops-base:sp23",
+	"workspaceFolder": "/app",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=delegated",
+	"remoteUser": "vscode",
+    "runArgs": ["-h","nyu"],
+    "remoteEnv": {
+		"FLASK_APP": "app.py",
+    	"FLASK_DEBUG": "True"
+    },
+	"customizations": {
+        "vscode": {
+            "extensions":[
+				"ms-python.python", 
+				"ms-python.pylint",
+				"njpwerner.autodocstring",
+				"yzhang.markdown-all-in-one",
+				"bierner.github-markdown-preview",
+				"hnw.vscode-auto-open-markdown-preview",
+				"DavidAnson.vscode-markdownlint",
+				"rangav.vscode-thunder-client"
+			]
+        }
+    },
+	"postCreateCommand": "sudo pip install -r requirements.txt",
+	"forwardPorts": [8000]
+
+	// 👇 Features to add to the Dev Container. More info: https://containers.dev/implementors/features.
+	// "features": {},
+}
