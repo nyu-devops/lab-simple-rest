@@ -36,8 +36,20 @@ The web service has the following requirements:
 ############################################################
 # Read counters
 ############################################################
+@app.route("/counters/<name>", methods=["GET"])
+def read_counters(name: str):
+    """Read a counter"""
+    app.logger.info("Request to Read counter: %s...", name)
 
-# Place code here...
+    # Try and get the counter
+    counter = COUNTERS.get(name)
+
+    # Return an error if the counter cannot be found
+    if counter is None:
+        abort(status.HTTP_404_NOT_FOUND, f"Counter {name} does not exist")
+
+    app.logger.info("Returning: %s = %d...", (name, counter))
+    return jsonify(name=name, counter=counter), status.HTTP_200_OK
 
 
 ############################################################
