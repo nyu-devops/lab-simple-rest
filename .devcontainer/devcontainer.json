@@ -1,6 +1,6 @@
 {
 	"name": "Simple REST",
-	"image": "rofrano/nyu-devops-base:sp23",
+	"image": "rofrano/nyu-devops-base:fa23",
 	"workspaceFolder": "/app",
     "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=delegated",
 	"remoteUser": "vscode",
@@ -11,6 +11,22 @@
     },
 	"customizations": {
         "vscode": {
+			"settings": {
+				"[python]": {
+					"editor.defaultFormatter": "ms-python.black-formatter",
+					"editor.formatOnSave": true
+				},
+				"python.linting.enabled": true,
+				"python.linting.pylintEnabled": true,
+				"markdown-preview-github-styles.colorTheme": "light",
+				"files.exclude": {
+					"**/.git": true,
+					"**/.DS_Store": true,
+					"**/*.pyc": true,
+					"**/__pycache__": true,
+					"**/.pytest_cache": true
+				}
+			},
             "extensions":[
 				"ms-python.python", 
 				"ms-python.pylint",
