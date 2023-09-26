@@ -25,7 +25,6 @@ The web service has the following requirements:
 # Place code here...
 
 
-
 ############################################################
 # List counters
 ############################################################
@@ -34,26 +33,14 @@ The web service has the following requirements:
 
 
 ############################################################
-# Read counters
-############################################################
-@app.route("/counters/<name>", methods=["GET"])
-def read_counters(name: str):
-    """Read a counter"""
-    app.logger.info("Request to Read counter: %s...", name)
-
-    # Try and get the counter
-    counter = COUNTERS.get(name)
-
-    # Return an error if the counter cannot be found
-    if counter is None:
-        abort(status.HTTP_404_NOT_FOUND, f"Counter {name} does not exist")
-
-    app.logger.info("Returning: %s = %d...", (name, counter))
-    return jsonify(name=name, counter=counter), status.HTTP_200_OK
-
-
-############################################################
 # Create counter
+############################################################
+
+# Place code here...
+
+
+############################################################
+# Read counters
 ############################################################
 
 # Place code here...
@@ -72,3 +59,50 @@ def read_counters(name: str):
 
 # Place code here...
 
+
+# ######################################################################
+# # Error Handlers
+# ######################################################################
+# @app.errorhandler(status.HTTP_404_NOT_FOUND)
+# def not_found(error):
+#     """Handles resources not found with 404_NOT_FOUND"""
+#     message = str(error)
+#     app.logger.warning(message)
+#     return (
+#         jsonify(
+#             status=status.HTTP_404_NOT_FOUND,
+#             error="404 Not Found",
+#             message=message
+#         ),
+#         status.HTTP_404_NOT_FOUND,
+#     )
+
+
+# @app.errorhandler(status.HTTP_405_METHOD_NOT_ALLOWED)
+# def method_not_supported(error):
+#     """Handles unsupported HTTP methods with 405_METHOD_NOT_SUPPORTED"""
+#     message = str(error)
+#     app.logger.warning(message)
+#     return (
+#         jsonify(
+#             status=status.HTTP_405_METHOD_NOT_ALLOWED,
+#             error="Method not Allowed",
+#             message=message,
+#         ),
+#         status.HTTP_405_METHOD_NOT_ALLOWED,
+#     )
+
+
+# @app.errorhandler(status.HTTP_409_CONFLICT)
+# def conflicting_action(error):
+#     """Handles unsupported HTTP methods with HTTP_409_CONFLICT"""
+#     message = str(error)
+#     app.logger.warning(message)
+#     return (
+#         jsonify(
+#             status=status.HTTP_409_CONFLICT,
+#             error="409 Conflict",
+#             message=message,
+#         ),
+#         status.HTTP_409_CONFLICT,
+#     )
