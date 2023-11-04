@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "lab-simple-rest"
+name = "app"
 version = "1.0.0"
 description = "Simple REST API with Flask Lab"
 authors = ["Your Name <you@example.com>"]
