@@ -1,6 +1,7 @@
+// spell: disable
 {
 	"name": "Simple REST",
-	"image": "rofrano/nyu-devops-base:fa23",
+	"image": "rofrano/nyu-devops-base:sp24",
 	"workspaceFolder": "/app",
     "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=delegated",
 	"remoteUser": "vscode",
@@ -16,9 +17,13 @@
 					"editor.defaultFormatter": "ms-python.black-formatter",
 					"editor.formatOnSave": true
 				},
-				"python.linting.enabled": true,
-				"python.linting.pylintEnabled": true,
 				"markdown-preview-github-styles.colorTheme": "light",
+				"makefile.extensionOutputFolder": "/tmp",
+				"python.testing.unittestEnabled": false,
+				"python.testing.pytestEnabled": true,			
+				"python.testing.pytestArgs": [
+					"tests"
+				],
 				"files.exclude": {
 					"**/.git": true,
 					"**/.DS_Store": true,
@@ -27,19 +32,31 @@
 					"**/.pytest_cache": true
 				}
 			},
-            "extensions":[
-				"ms-python.python", 
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"VisualStudioExptTeam.vscodeintellicode",
 				"ms-python.pylint",
-				"njpwerner.autodocstring",
+				"ms-python.flake8",
+				"ms-python.black-formatter",
+				"ms-vscode.makefile-tools",
 				"yzhang.markdown-all-in-one",
-				"bierner.github-markdown-preview",
 				"hnw.vscode-auto-open-markdown-preview",
-				"DavidAnson.vscode-markdownlint",
-				"rangav.vscode-thunder-client"
+				"davidanson.vscode-markdownlint",
+				"bierner.markdown-preview-github-styles",
+				"tamasfe.even-better-toml",
+				"donjayamanne.githistory",
+				"hbenl.vscode-test-explorer",
+				"LittleFoxTeam.vscode-python-test-adapter",
+				"njpwerner.autodocstring",
+				"wholroyd.jinja",
+				"redhat.vscode-yaml",
+				"rangav.vscode-thunder-client",
+				"streetsidesoftware.code-spell-checker"				
 			]
         }
     },
-	"postCreateCommand": "sudo pip install -r requirements.txt",
+	"postCreateCommand": "sudo python -m pip install -U pip poetry && sudo poetry config virtualenvs.create false && sudo poetry install",
 	"forwardPorts": [8000]
 
 	// 👇 Features to add to the Dev Container. More info: https://containers.dev/implementors/features.
