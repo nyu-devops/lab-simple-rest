@@ -87,6 +87,7 @@ def update_counters(name):
     # Increment the counter
     COUNTERS[name] += 1
 
+    app.logger.info("Updated: %s = %d...", name, COUNTERS[name])
     return jsonify(name=name, counter=COUNTERS[name]), status.HTTP_200_OK
 
 
