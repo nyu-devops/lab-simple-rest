@@ -1,3 +1,4 @@
+# cspell: ignore jsonify
 """
 Simple REST API using Flask
 """
@@ -26,7 +27,9 @@ def list_counters():
     """List counters"""
     app.logger.info("Request to list all counters...")
 
-    counters = [{"name": name, "counter": counter} for name, counter in COUNTERS.items()]
+    counters = [
+        {"name": name, "counter": counter} for name, counter in COUNTERS.items()
+    ]
 
     return counters
 
@@ -47,7 +50,11 @@ def create_counters(name):
 
     app.logger.info("Counter %s created.", name)
     location_url = url_for("read_counters", name=name, _external=True)
-    return jsonify(name=name, counter=counter), status.HTTP_201_CREATED, {"Location": location_url}
+    return (
+        jsonify(name=name, counter=counter),
+        status.HTTP_201_CREATED,
+        {"Location": location_url},
+    )
 
 
 ############################################################
@@ -115,9 +122,7 @@ def not_found(error):
     app.logger.warning(message)
     return (
         jsonify(
-            status=status.HTTP_404_NOT_FOUND,
-            error="404 Not Found",
-            message=message
+            status=status.HTTP_404_NOT_FOUND, error="404 Not Found", message=message
         ),
         status.HTTP_404_NOT_FOUND,
     )
