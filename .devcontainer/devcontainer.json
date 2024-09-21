@@ -1,11 +1,11 @@
 // spell: disable
 {
 	"name": "Simple REST",
-	"image": "rofrano/nyu-devops-base:su24",
+	"image": "rofrano/nyu-devops-base:fa24",
 	"workspaceFolder": "/app",
     "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=delegated",
 	"remoteUser": "vscode",
-    "runArgs": ["-h","nyu"],
+    "runArgs": ["-h","nyu","--name","lab-simple-rest"],
     "remoteEnv": {
 		"FLASK_APP": "app.py",
     	"FLASK_DEBUG": "True"
