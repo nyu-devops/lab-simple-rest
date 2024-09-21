@@ -1,7 +1,7 @@
 // spell: disable
 {
 	"name": "Simple REST",
-	"image": "rofrano/nyu-devops-base:sp24",
+	"image": "rofrano/nyu-devops-base:fa24",
 	"workspaceFolder": "/app",
     "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=delegated",
 	"remoteUser": "vscode",
