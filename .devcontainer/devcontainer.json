@@ -1,7 +1,7 @@
 // spell: disable
 {
 	"name": "Simple REST",
-	"image": "rofrano/nyu-devops-base:fa24",
+	"image": "rofrano/nyu-devops-base:sp25",
 	"workspaceFolder": "/app",
     "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=delegated",
 	"remoteUser": "vscode",
@@ -13,17 +13,25 @@
 	"customizations": {
         "vscode": {
 			"settings": {
+				"cSpell.words": [
+					"pytest",
+					"pipenv",
+					"virtualenvs"
+				],				
 				"[python]": {
 					"editor.defaultFormatter": "ms-python.black-formatter",
 					"editor.formatOnSave": true
 				},
+				"git.mergeEditor": true,
 				"markdown-preview-github-styles.colorTheme": "light",
 				"makefile.extensionOutputFolder": "/tmp",
+				"makefile.configureOnOpen": false,
 				"python.testing.unittestEnabled": false,
 				"python.testing.pytestEnabled": true,			
 				"python.testing.pytestArgs": [
 					"tests"
 				],
+
 				"files.exclude": {
 					"**/.git": true,
 					"**/.DS_Store": true,
@@ -35,28 +43,28 @@
 			"extensions": [
 				"ms-python.python",
 				"ms-python.vscode-pylance",
-				"VisualStudioExptTeam.vscodeintellicode",
 				"ms-python.pylint",
 				"ms-python.flake8",
 				"ms-python.black-formatter",
+				"njpwerner.autodocstring",
+				"wholroyd.jinja",
 				"ms-vscode.makefile-tools",
 				"yzhang.markdown-all-in-one",
+				"DavidAnson.vscode-markdownlint",
+				"bierner.github-markdown-preview",
 				"hnw.vscode-auto-open-markdown-preview",
-				"davidanson.vscode-markdownlint",
 				"bierner.markdown-preview-github-styles",
 				"tamasfe.even-better-toml",
 				"donjayamanne.githistory",
 				"hbenl.vscode-test-explorer",
 				"LittleFoxTeam.vscode-python-test-adapter",
-				"njpwerner.autodocstring",
-				"wholroyd.jinja",
 				"redhat.vscode-yaml",
-				"rangav.vscode-thunder-client",
+				"unjinjang.rest-api-client",
 				"streetsidesoftware.code-spell-checker"				
 			]
         }
     },
-	"postCreateCommand": "sudo python -m pip install -U pip poetry && sudo poetry config virtualenvs.create false && sudo poetry install",
+	"postCreateCommand": "sudo python -m pip install --upgrade pip pipenv && sudo pipenv install --system --dev",
 	"forwardPorts": [8000]
 
 	// 👇 Features to add to the Dev Container. More info: https://containers.dev/implementors/features.
