@@ -9,7 +9,7 @@
     "remoteEnv": {
 		"FLASK_APP": "app.py",
     	"FLASK_DEBUG": "True",
-		"PIPENV_VENV_IN_PROJECT": 1
+		"PIPENV_VENV_IN_PROJECT": "1"
     },
 	"customizations": {
         "vscode": {
