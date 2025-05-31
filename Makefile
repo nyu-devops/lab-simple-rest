@@ -1,4 +1,4 @@
-# Makefile targets for dvelopment an testing
+# Makefile targets for development an testing
 # Use make help for more info
 
 .PHONY: help
@@ -10,27 +10,31 @@ all: help
 
 ##@ Development
 
+.PHONY: venv
 venv: ## Create a Python virtual environment
 	$(info Creating Python 3 virtual environment...)
-	poetry shell
+	pipenv shell
 
-install: ## Install Python dependencies
+.PHONY: install
+install: ## Install dependencies
 	$(info Installing dependencies...)
-	poetry config virtualenvs.create false
-	poetry install
+	pipenv install --dev
 
+.PHONY: lint
 lint: ## Run the linter
 	$(info Running linting...)
 	flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 	flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
 	pylint . --max-line-length=127
 
+.PHONY: test
 test: ## Run the unit tests
 	$(info Running tests...)
 	pytest --disable-warnings
 
 ##@ Runtime
 
+.PHONY: run
 run: ## Run the service
 	$(info Starting service...)
-	honcho start
+	flask run
