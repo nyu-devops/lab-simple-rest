@@ -1,14 +1,15 @@
 // spell: disable
 {
 	"name": "Simple REST",
-	"image": "rofrano/nyu-devops-base:sp25",
+	"image": "rofrano/nyu-devops-base:su25",
 	"workspaceFolder": "/app",
     "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=delegated",
 	"remoteUser": "vscode",
     "runArgs": ["-h","nyu","--name","lab-simple-rest"],
     "remoteEnv": {
 		"FLASK_APP": "app.py",
-    	"FLASK_DEBUG": "True"
+    	"FLASK_DEBUG": "True",
+		"PIPENV_VENV_IN_PROJECT": "1"
     },
 	"customizations": {
         "vscode": {
@@ -31,7 +32,7 @@
 				"python.testing.pytestArgs": [
 					"tests"
 				],
-
+				"python.analysis.typeCheckingMode": "standard",
 				"files.exclude": {
 					"**/.git": true,
 					"**/.DS_Store": true,
