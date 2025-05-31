@@ -8,7 +8,8 @@
     "runArgs": ["-h","nyu","--name","lab-simple-rest"],
     "remoteEnv": {
 		"FLASK_APP": "app.py",
-    	"FLASK_DEBUG": "True"
+    	"FLASK_DEBUG": "True",
+		"PIPENV_VENV_IN_PROJECT": "1"
     },
 	"customizations": {
         "vscode": {
