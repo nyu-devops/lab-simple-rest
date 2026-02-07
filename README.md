@@ -36,7 +36,7 @@ Once the environment is loaded you should be placed at a `bash` prompt in the `/
 
 ## License
 
-Copyright (c) 2016, 2025 [John Rofrano](https://www.linkedin.com/in/JohnRofrano/). All rights reserved.
+Copyright (c) 2016, 2026 [John Rofrano](https://www.linkedin.com/in/JohnRofrano/). All rights reserved.
 
 Licensed under the Apache License. See [LICENSE](LICENSE)
 
