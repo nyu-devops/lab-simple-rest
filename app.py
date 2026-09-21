@@ -1,109 +1,158 @@
+# cspell: ignore jsonify
 """
 Simple REST API using Flask
-
-You have been asked to create a web service that can keep 
-track of multiple counters. 
-
-The web service has the following requirements:
-
-- The API must be RESTful.
-- The endpoint must be called /counters.
-- The initial data returned should be this {"name":"some_name", "counter":0}
-- When creating a counter, you must specify the name in the path.
-- Duplicate names must return a conflict error code.
-- The service must be able to update a counter by name.
-- The service must be able to get a counter's current value.
-- The service must be able to delete a counter.
-
 """
+from flask import Flask, jsonify, abort, url_for
+import status
 
+app = Flask(__name__)
+
+COUNTERS: dict = {}
 
 
 ############################################################
-# Base URL
+# Index page
 ############################################################
-
-# Place code here...
+@app.route("/", methods=["GET"])
+def index():
+    """Root URL"""
+    return {"status": "OK"}
 
 
 ############################################################
 # List counters
 ############################################################
+@app.route("/counters", methods=["GET"])
+def list_counters():
+    """List counters"""
+    app.logger.info("Request to list all counters...")
 
-# Place code here...
+    counters = [
+        {"name": name, "counter": counter} for name, counter in COUNTERS.items()
+    ]
+
+    return counters
 
 
 ############################################################
 # Create counter
 ############################################################
+@app.route("/counters/<name>", methods=["POST"])
+def create_counters(name):
+    """Create a counter"""
+    app.logger.info("Request to Create counter...")
 
-# Place code here...
+    if name in COUNTERS:
+        abort(status.HTTP_409_CONFLICT, f"Counter '{name}' already exists.")
+
+    counter = 0
+    COUNTERS[name] = counter
+
+    app.logger.info("Counter %s created.", name)
+    location_url = url_for("read_counters", name=name, _external=True)
+    return (
+        jsonify(name=name, counter=counter),
+        status.HTTP_201_CREATED,
+        {"Location": location_url},
+    )
 
 
 ############################################################
 # Read counters
 ############################################################
+@app.route("/counters/<name>", methods=["GET"])
+def read_counters(name: str):
+    """Read a counter"""
+    app.logger.info("Request to Read counter: %s...", name)
 
-# Place code here...
+    # Try and get the counter
+    counter = COUNTERS.get(name)
+
+    # Return an error if the counter cannot be found
+    if counter is None:
+        abort(status.HTTP_404_NOT_FOUND, f"Counter '{name}' does not exist")
+
+    app.logger.info("Returning: %s = %d...", name, counter)
+    return jsonify(name=name, counter=counter), status.HTTP_200_OK
 
 
 ############################################################
 # Update counters
 ############################################################
+@app.route("/counters/<name>", methods=["PUT"])
+def update_counters(name):
+    """Update a counter"""
+    app.logger.info("Request to Update counter %s...", name)
 
-# Place code here...
+    # Try and get the counter
+    counter = COUNTERS.get(name)
+
+    # Return an error if the counter cannot be found
+    if counter is None:
+        abort(status.HTTP_404_NOT_FOUND, f"Counter '{name}' does not exist")
+
+    # Increment the counter
+    COUNTERS[name] += 1
+
+    app.logger.info("Updated: %s = %d...", name, COUNTERS[name])
+    return jsonify(name=name, counter=COUNTERS[name]), status.HTTP_200_OK
 
 
 ############################################################
 # Delete counters
 ############################################################
+@app.route("/counters/<name>", methods=["DELETE"])
+def delete_counters(name):
+    """Delete a counter"""
+    app.logger.info("Request to Delete counter...")
 
-# Place code here...
+    if name in COUNTERS:
+        del COUNTERS[name]
 
-
-# ######################################################################
-# # Error Handlers
-# ######################################################################
-# @app.errorhandler(status.HTTP_404_NOT_FOUND)
-# def not_found(error):
-#     """Handles resources not found with 404_NOT_FOUND"""
-#     message = str(error)
-#     app.logger.warning(message)
-#     return (
-#         jsonify(
-#             status=status.HTTP_404_NOT_FOUND,
-#             error="404 Not Found",
-#             message=message
-#         ),
-#         status.HTTP_404_NOT_FOUND,
-#     )
+    return "", status.HTTP_204_NO_CONTENT
 
 
-# @app.errorhandler(status.HTTP_405_METHOD_NOT_ALLOWED)
-# def method_not_supported(error):
-#     """Handles unsupported HTTP methods with 405_METHOD_NOT_SUPPORTED"""
-#     message = str(error)
-#     app.logger.warning(message)
-#     return (
-#         jsonify(
-#             status=status.HTTP_405_METHOD_NOT_ALLOWED,
-#             error="Method not Allowed",
-#             message=message,
-#         ),
-#         status.HTTP_405_METHOD_NOT_ALLOWED,
-#     )
+######################################################################
+# Error Handlers
+######################################################################
+@app.errorhandler(status.HTTP_404_NOT_FOUND)
+def not_found(error):
+    """Handles resources not found with 404_NOT_FOUND"""
+    message = str(error)
+    app.logger.warning(message)
+    return (
+        jsonify(
+            status=status.HTTP_404_NOT_FOUND, error="404 Not Found", message=message
+        ),
+        status.HTTP_404_NOT_FOUND,
+    )
 
 
-# @app.errorhandler(status.HTTP_409_CONFLICT)
-# def conflicting_action(error):
-#     """Handles unsupported HTTP methods with HTTP_409_CONFLICT"""
-#     message = str(error)
-#     app.logger.warning(message)
-#     return (
-#         jsonify(
-#             status=status.HTTP_409_CONFLICT,
-#             error="409 Conflict",
-#             message=message,
-#         ),
-#         status.HTTP_409_CONFLICT,
-#     )
+@app.errorhandler(status.HTTP_405_METHOD_NOT_ALLOWED)
+def method_not_supported(error):
+    """Handles unsupported HTTP methods with 405_METHOD_NOT_SUPPORTED"""
+    message = str(error)
+    app.logger.warning(message)
+    return (
+        jsonify(
+            status=status.HTTP_405_METHOD_NOT_ALLOWED,
+            error="Method not Allowed",
+            message=message,
+        ),
+        status.HTTP_405_METHOD_NOT_ALLOWED,
+    )
+
+
+@app.errorhandler(status.HTTP_409_CONFLICT)
+def conflicting_action(error):
+    """Handles unsupported HTTP methods with HTTP_409_CONFLICT"""
+    message = str(error)
+    app.logger.warning(message)
+    return (
+        jsonify(
+            status=status.HTTP_409_CONFLICT,
+            error="409 Conflict",
+            message=message,
+        ),
+        status.HTTP_409_CONFLICT,
+    )
